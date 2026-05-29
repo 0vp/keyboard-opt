@@ -1,0 +1,171 @@
+"""Plain-English explanations of every metric shown in the display."""
+
+from __future__ import annotations
+
+# direction: "higher" or "lower" = which is better
+METRICS = [
+    {
+        "id": "wpm",
+        "name": "Theoretical Max Speed",
+        "unit": "WPM",
+        "better": "higher",
+        "primary": True,
+        "short": "Simulated top speed with perfect form.",
+        "explain": (
+            "Our biomechanical simulator types the whole corpus with flawless "
+            "technique: ten fingers moving in parallel, each obeying Fitts's law "
+            "for travel time. The result is the fastest sustainable words-per-minute "
+            "a human could reach on this layout. It is calibrated so QWERTY sits at a "
+            "realistic elite ceiling, so the number you see is 'how much faster than "
+            "QWERTY, in human terms'."
+        ),
+        "quantify": "words (chars/5) divided by simulated typing time, in minutes.",
+    },
+    {
+        "id": "mean_iki_ms",
+        "name": "Avg Time Between Keys",
+        "unit": "ms",
+        "better": "lower",
+        "short": "Average gap between two keypresses.",
+        "explain": (
+            "The mean inter-key interval. Faster layouts keep this low by avoiding "
+            "moves that force a single finger to travel between consecutive keys."
+        ),
+        "quantify": "average milliseconds between consecutive simulated keypresses.",
+    },
+    {
+        "id": "sfb",
+        "name": "Same-Finger Bigrams",
+        "unit": "%",
+        "better": "lower",
+        "short": "Two keys in a row pressed by the same finger.",
+        "explain": (
+            "When one finger must hit two different keys back-to-back it has to lift "
+            "and travel, which is the single biggest speed killer. Low SFB% is the "
+            "hallmark of a fast layout."
+        ),
+        "quantify": "share of adjacent letter pairs whose two keys use the same finger.",
+    },
+    {
+        "id": "sfs",
+        "name": "Same-Finger Skipgrams",
+        "unit": "%",
+        "better": "lower",
+        "short": "Same finger on keys one apart (a_c).",
+        "explain": (
+            "Like SFBs but with one key in between. Still forces the same finger to "
+            "reposition quickly, just with a little more recovery time."
+        ),
+        "quantify": "share of letter triples whose 1st and 3rd keys use the same finger.",
+    },
+    {
+        "id": "roll_total",
+        "name": "Rolls",
+        "unit": "%",
+        "better": "higher",
+        "short": "Comfortable same-hand finger sequences.",
+        "explain": (
+            "A roll is when adjacent fingers on one hand fire in quick succession, "
+            "like fingers drumming on a desk. Rolls feel fast and fluid; more rolls "
+            "generally means a smoother layout."
+        ),
+        "quantify": "share of same-hand letter pairs typed by different, ordered fingers.",
+    },
+    {
+        "id": "roll_in",
+        "name": "Inward Rolls",
+        "unit": "%",
+        "better": "higher",
+        "short": "Rolls moving toward the index finger.",
+        "explain": (
+            "Rolls that run from the pinky side toward the index finger. Most typists "
+            "find inward rolls more comfortable and faster than outward ones."
+        ),
+        "quantify": "share of same-hand pairs ordered pinky -> index.",
+    },
+    {
+        "id": "roll_out",
+        "name": "Outward Rolls",
+        "unit": "%",
+        "better": "lower",
+        "short": "Rolls moving toward the pinky.",
+        "explain": (
+            "Rolls running from index toward the pinky. Usable but generally less "
+            "comfortable than inward rolls."
+        ),
+        "quantify": "share of same-hand pairs ordered index -> pinky.",
+    },
+    {
+        "id": "alternation",
+        "name": "Hand Alternation",
+        "unit": "%",
+        "better": "higher",
+        "short": "Consecutive keys on opposite hands.",
+        "explain": (
+            "When the hands take turns, one hand can pre-position while the other is "
+            "pressing. This parallelism is a major source of speed and reduces strain."
+        ),
+        "quantify": "share of adjacent letter pairs typed on opposite hands.",
+    },
+    {
+        "id": "redirect",
+        "name": "Redirects",
+        "unit": "%",
+        "better": "lower",
+        "short": "Same-hand triples that change direction.",
+        "explain": (
+            "Three keys on one hand that go in, then out (or out, then in). The change "
+            "of direction interrupts the rolling motion and feels awkward."
+        ),
+        "quantify": "share of one-hand letter triples whose roll direction reverses.",
+    },
+    {
+        "id": "lateral_stretch",
+        "name": "Lateral Stretch",
+        "unit": "%",
+        "better": "lower",
+        "short": "Fingers forced far apart sideways.",
+        "explain": (
+            "Bigrams that stretch two fingers horizontally beyond a comfortable span "
+            "(for example reaching the center column). Stretches slow you down and "
+            "strain the hand."
+        ),
+        "quantify": "share of bigrams on stretch-prone finger pairs exceeding a distance threshold.",
+    },
+    {
+        "id": "pinky_load",
+        "name": "Pinky Load",
+        "unit": "%",
+        "better": "lower",
+        "short": "How much work the weakest fingers do.",
+        "explain": (
+            "The pinkies are the weakest, slowest fingers. Layouts that pile letters "
+            "onto them feel more tiring; lower pinky load is usually better."
+        ),
+        "quantify": "share of all keystrokes typed by the left and right pinkies.",
+    },
+    {
+        "id": "home_row",
+        "name": "Home-Row Usage",
+        "unit": "%",
+        "better": "higher",
+        "short": "Share of typing on the resting row.",
+        "explain": (
+            "The home row is where the fingers rest. The more typing that happens "
+            "there, the less the fingers have to travel up or down."
+        ),
+        "quantify": "share of all keystrokes that land on the home row.",
+    },
+    {
+        "id": "travel_mm_per_char",
+        "name": "Finger Travel",
+        "unit": "mm/char",
+        "better": "lower",
+        "short": "Average distance fingers move per character.",
+        "explain": (
+            "Total physical distance the fingers travel, divided by characters typed. "
+            "Less travel means less effort and, usually, more speed."
+        ),
+        "quantify": "sum of finger movement distances divided by number of characters.",
+    },
+]
